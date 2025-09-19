@@ -4,10 +4,6 @@ require_once __DIR__ . '/../classes/customer_class.php';
 
 /**
  * Register a new customer.
- *
- * Returns an array:
- *  - ['success' => true, 'id' => <customer_id>]
- *  - ['success' => false, 'message' => '<error message>']
  */
 function register_customer_ctr($name, $email, $password, $phone_number, $role = 1, $country = '', $city = '')
 {
@@ -25,15 +21,14 @@ function register_customer_ctr($name, $email, $password, $phone_number, $role = 
         return ['success' => false, 'message' => 'Email is already registered'];
     }
 
-    // Create customer
-    // set optional fields on the object so createCustomer will pick them up
-    if ($country !== '') {
-        $customer->setCountry($country);
-    }
-    if ($city !== '') {
-        $customer->setCity($city);
-    }
-    $customer_id = $customer->createCustomer($name, $email, $password, $phone_number, $role);
+    // Hash password before saving
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    // Optional fields
+    if ($country !== '') $customer->setCountry($country);
+    if ($city !== '') $customer->setCity($city);
+
+    $customer_id = $customer->createCustomer($name, $email, $hashed_password, $phone_number, $role);
     if ($customer_id) {
         return ['success' => true, 'id' => $customer_id];
     }
@@ -41,9 +36,36 @@ function register_customer_ctr($name, $email, $password, $phone_number, $role = 
     return ['success' => false, 'message' => 'Failed to register customer'];
 }
 
+/**
+ * Get customer by email (wrapper)
+ */
 function get_customer_by_email_ctr($email)
 {
-	$customer = new Customer();
-	return $customer->getCustomerByEmail($email);
+    $customer = new Customer();
+    return $customer->getCustomerByEmail($email);
 }
 
+/**
+ * Login a customer
+ */
+function login_customer_ctr($email, $password)
+{
+    $customer = new Customer();
+    $user = $customer->getCustomerByEmail(trim($email));
+
+    if (!$user) {
+        return ['success' => false, 'message' => 'No user found with this email'];
+    }
+
+    if (!password_verify($password, $user['customer_pass'])) {
+        return ['success' => false, 'message' => 'Incorrect password'];
+    }
+
+    return [
+        'success' => true,
+        'id' => $user['customer_id'],
+        'name' => $user['customer_name'],
+        'email' => $user['customer_email'],
+        'role' => $user['user_role']
+    ];
+}

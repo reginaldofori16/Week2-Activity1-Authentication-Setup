@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,14 +27,26 @@
 
 	<div class="menu-tray">
 		<span class="me-2">Menu:</span>
-		<a href="login/register.php" class="btn btn-sm btn-outline-primary">Register</a>
-		<a href="login/login.php" class="btn btn-sm btn-outline-secondary">Login</a>
+
+		<?php if (isset($_SESSION['user_id'])): ?>
+			<span class="me-2">Hello, <strong><?php echo htmlspecialchars($_SESSION['user_name']); ?></strong></span>
+			<a href="actions/logout.php" class="btn btn-sm btn-outline-danger">Logout</a>
+		<?php else: ?>
+			<a href="login/register.php" class="btn btn-sm btn-outline-primary">Register</a>
+			<a href="login/login.php" class="btn btn-sm btn-outline-secondary">Login</a>
+		<?php endif; ?>
 	</div>
 
 	<div class="container" style="padding-top:120px;">
 		<div class="text-center">
 			<h1>Welcome</h1>
-			<p class="text-muted">Use the menu in the top-right to Register or Login.</p>
+			<p class="text-muted">
+				<?php if (isset($_SESSION['user_id'])): ?>
+					You are logged in as <strong><?php echo htmlspecialchars($_SESSION['user_email']); ?></strong>.
+				<?php else: ?>
+					Use the menu in the top-right to Register or Login.
+				<?php endif; ?>
+			</p>
 		</div>
 	</div>
 

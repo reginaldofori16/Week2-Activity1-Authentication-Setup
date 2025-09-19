@@ -65,23 +65,25 @@ class Customer extends db_connection
 		return false;
 	}
 
-	public function getCustomerByEmail($email)
-	{
-		$stmt = $this->db->prepare("SELECT * FROM customer WHERE customer_email = ?");
-		$stmt->bind_param("s", $email);
-		$stmt->execute();
-		return $stmt->get_result()->fetch_assoc();
-	}
+	public function getCustomerByEmail($email) {
+    $sql = "SELECT 
+                customer_id,
+                customer_name,
+                customer_email,
+                customer_pass,
+                customer_country,
+                customer_city,
+                customer_contact,
+                customer_image,
+                user_role
+            FROM customer
+            WHERE customer_email = ?";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_assoc();
+}
 
-	// public setters so external code can supply optional fields safely
-	public function setCountry($country)
-	{
-		$this->country = trim($country);
-	}
-
-	public function setCity($city)
-	{
-		$this->city = trim($city);
-	}
 }
 
