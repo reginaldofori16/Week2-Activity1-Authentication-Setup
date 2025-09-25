@@ -41,7 +41,7 @@ try {
     $email = isset($_POST['email']) ? trim($_POST['email']) : '';
     $password = isset($_POST['password']) ? $_POST['password'] : '';
     $phone_number = isset($_POST['phone_number']) ? trim($_POST['phone_number']) : '';
-    $role = isset($_POST['role']) ? intval($_POST['role']) : 1;
+    $role = isset($_POST['role']) ? intval($_POST['role']) : 2;
     $country = isset($_POST['country']) ? trim($_POST['country']) : '';
     $city = isset($_POST['city']) ? trim($_POST['city']) : '';
 
