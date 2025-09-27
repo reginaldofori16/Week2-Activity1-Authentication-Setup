@@ -45,6 +45,10 @@ try {
     $country = isset($_POST['country']) ? trim($_POST['country']) : '';
     $city = isset($_POST['city']) ? trim($_POST['city']) : '';
 
+    if ($role !== 1 && $role !== 2) {
+    $role = 2;  // Default to customer role if invalid role is passed
+}
+
     if ($name === '' || $email === '' || $password === '' || $phone_number === '') {
         http_response_code(400);
         echo json_encode(['status' => 'error', 'message' => 'Missing required fields', 'debug_db_connected' => $db_connected, 'debug_db_error' => $db_error]);

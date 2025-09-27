@@ -164,18 +164,6 @@
                                 <label for="profile_image" class="form-label">Profile Image <i class="fa fa-image"></i></label>
                                 <input type="file" class="form-control animate__animated animate__fadeInUp" id="profile_image" name="profile_image" accept="image/*">
                             </div>
-                            <div class="mb-4">
-                                <label class="form-label">Register As</label>
-                                <div class="d-flex justify-content-start">
-                                    <div class="form-check me-3 custom-radio">
-                                        <input class="form-check-input" type="radio" name="role" id="customer" value="1" checked>
-                                        <label class="form-check-label" for="customer">Customer</label>
-                                    </div>
-                                    <div class="form-check custom-radio">
-                                        <input class="form-check-input" type="radio" name="role" id="owner" value="2">
-                                        <label class="form-check-label" for="owner">Restaurant Owner</label>
-                                    </div>
-                                </div>
                             </div>
                             <button type="submit" class="btn btn-custom w-100 animate-pulse-custom">Register</button>
                         </form>

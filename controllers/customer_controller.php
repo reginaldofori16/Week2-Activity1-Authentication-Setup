@@ -13,7 +13,9 @@ function register_customer_ctr($name, $email, $password, $phone_number, $role = 
     $email = trim($email);
     $name = trim($name);
     $phone_number = trim($phone_number);
-    $role = intval($role) ?: 1;
+    
+    // Ensure that if no role is passed, it defaults to 2 (Customer)
+    $role = intval($role) ?: 2;
 
     // Check for existing email
     $existing = $customer->getCustomerByEmail($email);
@@ -21,14 +23,15 @@ function register_customer_ctr($name, $email, $password, $phone_number, $role = 
         return ['success' => false, 'message' => 'Email is already registered'];
     }
 
-    // Hash password before saving
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
+    // Do NOT pre-hash here. createCustomer hashes the plain password.
     // Optional fields
     if ($country !== '') $customer->setCountry($country);
     if ($city !== '') $customer->setCity($city);
 
-    $customer_id = $customer->createCustomer($name, $email, $hashed_password, $phone_number, $role);
+    // Create customer with the given data, including the role
+    $customer_id = $customer->createCustomer($name, $email, $password, $phone_number, $role);
+    
+    // Return success or failure message
     if ($customer_id) {
         return ['success' => true, 'id' => $customer_id];
     }
@@ -50,22 +53,25 @@ function get_customer_by_email_ctr($email)
  */
 function login_customer_ctr($email, $password)
 {
-    $customer = new Customer();
-    $user = $customer->getCustomerByEmail(trim($email));
-
-    if (!$user) {
-        return ['success' => false, 'message' => 'No user found with this email'];
+    require_once __DIR__ . '/../classes/customer_class.php';
+    $cust = new Customer();
+    $row = $cust->getCustomerByEmail($email);
+    if (!$row) {
+        return ['success' => false, 'message' => 'No account with that email'];
     }
 
-    if (!password_verify($password, $user['customer_pass'])) {
-        return ['success' => false, 'message' => 'Incorrect password'];
+    // Use the actual column name returned by getCustomerByEmail
+    $hash = $row['customer_pass'] ?? '';
+    if (password_verify($password, $hash)) {
+        return [
+            'success' => true,
+            'id' => $row['customer_id'],
+            'name' => $row['customer_name'],
+            'email' => $row['customer_email'],
+            // role column is user_role in the table
+            'role' => $row['user_role']
+        ];
     }
 
-    return [
-        'success' => true,
-        'id' => $user['customer_id'],
-        'name' => $user['customer_name'],
-        'email' => $user['customer_email'],
-        'role' => $user['user_role']
-    ];
+    return ['success' => false, 'message' => 'Incorrect password'];
 }

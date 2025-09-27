@@ -28,10 +28,16 @@ session_start();
 	<div class="menu-tray">
 		<span class="me-2">Menu:</span>
 
-		<?php if (isset($_SESSION['user_id'])): ?>
+	<?php if (isset($_SESSION['user_id'])): ?>
 			<span class="me-2">Hello, <strong><?php echo htmlspecialchars($_SESSION['user_name']); ?></strong></span>
+
+			<!-- If the user is an admin, show Category Management -->
+			<?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 1): ?>
+				<a href="admin/category.php" class="btn btn-sm btn-outline-info">Category Management</a>
+			<?php endif; ?>
+
 			<a href="actions/logout.php" class="btn btn-sm btn-outline-danger">Logout</a>
-		<?php else: ?>
+	<?php else: ?>
 			<a href="login/register.php" class="btn btn-sm btn-outline-primary">Register</a>
 			<a href="login/login.php" class="btn btn-sm btn-outline-secondary">Login</a>
 		<?php endif; ?>
