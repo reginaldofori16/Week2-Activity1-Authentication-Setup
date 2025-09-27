@@ -1,5 +1,6 @@
 <?php
-include_once 'category_class.php';
+// Require the CategoryClass using an explicit path relative to this controller
+require_once __DIR__ . '/../classes/category_class.php';
 
 class CategoryController {
 

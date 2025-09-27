@@ -1,7 +1,7 @@
 <?php
 // Include core helpers and category controller for handling category creation
 require_once __DIR__ . '/../settings/core.php';
-include_once 'category_controller.php';
+require_once __DIR__ . '/../controllers/category_controller.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Get category name from the form
@@ -13,23 +13,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (empty($category_name)) {
-        echo 'Category name cannot be empty!';
+        redirect_to('admin/category.php?status=error&msg=' . urlencode('Category name cannot be empty'));
         exit();
     }
 
     // Only admins can add categories
     if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 1) {
-        echo 'Unauthorized';
+        redirect_to('admin/category.php?status=error&msg=' . urlencode('Unauthorized'));
         exit();
     }
 
     // Check if the category name already exists
     if (CategoryController::category_exists($category_name)) {
-        echo 'Category name already exists! Please choose another name.';
+        redirect_to('admin/category.php?status=error&msg=' . urlencode('Category name already exists'));
+        exit();
     } else {
         // Add category to the database
         $result = CategoryController::add_category($category_name);
-        echo $result ? 'Category added successfully!' : 'Category creation failed!';
+        if ($result) {
+            redirect_to('admin/category.php?status=success');
+        } else {
+            redirect_to('admin/category.php?status=error&msg=' . urlencode('Category creation failed'));
+        }
+        exit();
     }
 }
 ?>

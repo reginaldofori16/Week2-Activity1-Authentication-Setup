@@ -49,7 +49,8 @@ try {
 
         $_SESSION['user_name'] = $user['name'];
         $_SESSION['user_email'] = $user['email'];
-        $_SESSION['user_role'] = $user['role'];
+    // Ensure role is stored as integer so strict checks work
+    $_SESSION['user_role'] = (int) $user['role'];
 
         // Return JSON so AJAX performs the redirect
     $redirect = ($_SESSION['user_role'] == 1) ? '/register_sample/admin/category.php' : '/register_sample/index.php';
