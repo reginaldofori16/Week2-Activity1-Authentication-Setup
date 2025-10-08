@@ -1,7 +1,7 @@
 <?php
 // Include core helpers and category controller for fetching categories
 require_once __DIR__ . '/../settings/core.php';
-include_once 'category_controller.php';
+require_once __DIR__ . '/../controllers/category_controller.php';
 
 // Ensure session is started
 if (session_status() === PHP_SESSION_NONE) {

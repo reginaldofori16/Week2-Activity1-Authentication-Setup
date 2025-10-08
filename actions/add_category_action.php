@@ -40,7 +40,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $result = CategoryController::add_category($category_name);
         if ($isAjax) {
             if ($result) echo json_encode(['status' => 'success', 'message' => 'Category added']);
-            else echo json_encode(['status' => 'error', 'message' => 'Category creation failed']);
+            else {
+                // try to include DB error if available
+                $dbErr = null;
+                if (method_exists('\CategoryClass', 'get_last_error')) {
+                    $dbErr = \CategoryClass::get_last_error();
+                }
+                echo json_encode(['status' => 'error', 'message' => 'Category creation failed', 'db_error' => $dbErr]);
+            }
             exit();
         }
         if ($result) {

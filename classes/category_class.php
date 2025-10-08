@@ -8,6 +8,14 @@ class CategoryClass extends db_connection {
         parent::db_connect();
     }
 
+    // Store last DB error message for debugging
+    protected static $last_error = '';
+
+    public static function get_last_error()
+    {
+        return self::$last_error;
+    }
+
     /* Instance methods: use $this->db (mysqli) for prepared statements */
     private function create(string $name)
     {
@@ -15,6 +23,9 @@ class CategoryClass extends db_connection {
         if (!$stmt) return false;
         $stmt->bind_param('s', $name);
         $ok = $stmt->execute();
+        if (!$ok) {
+            self::$last_error = $stmt->error ?: $this->db->error;
+        }
         $stmt->close();
         return $ok;
     }
@@ -46,6 +57,9 @@ class CategoryClass extends db_connection {
         if (!$stmt) return false;
         $stmt->bind_param('si', $name, $id);
         $ok = $stmt->execute();
+        if (!$ok) {
+            self::$last_error = $stmt->error ?: $this->db->error;
+        }
         $stmt->close();
         return $ok;
     }
@@ -56,6 +70,9 @@ class CategoryClass extends db_connection {
         if (!$stmt) return false;
         $stmt->bind_param('i', $id);
         $ok = $stmt->execute();
+        if (!$ok) {
+            self::$last_error = $stmt->error ?: $this->db->error;
+        }
         $stmt->close();
         return $ok;
     }
