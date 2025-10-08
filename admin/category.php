@@ -108,3 +108,17 @@ if (is_logged_in() && is_admin()) {
 
 </body>
 </html>
+
+    <!-- Include jQuery, SweetAlert2, and category JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // API endpoints used by the JS; generated server-side so paths follow BASE_URL
+        var CATEGORY_ENDPOINTS = {
+            fetch: '<?php echo htmlspecialchars(generate_url("actions/fetch_category_action.php")); ?>',
+            add: '<?php echo htmlspecialchars(generate_url("actions/add_category_action.php")); ?>',
+            update: '<?php echo htmlspecialchars(generate_url("actions/update_category_action.php")); ?>',
+            delete: '<?php echo htmlspecialchars(generate_url("actions/delete_category_action.php")); ?>'
+        };
+    </script>
+    <script src="<?php echo htmlspecialchars(generate_url('js/category.js')); ?>"></script>
