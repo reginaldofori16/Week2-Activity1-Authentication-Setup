@@ -1,8 +1,8 @@
 // Handle Category Form Submission for Add Category
-document.getElementById('categoryForm').addEventListener('submit', function(event) {
+document.getElementById('add-category-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
-    let categoryName = document.getElementById('category_name').value;
+    let categoryName = document.querySelector('input[name="category_name"]').value;
 
     if (categoryName.trim() === '') {
         alert('Category name cannot be empty!');
@@ -10,7 +10,7 @@ document.getElementById('categoryForm').addEventListener('submit', function(even
     }
 
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', 'actions/add_category_action.php', true);
+    xhr.open('POST', '../actions/add_category_action.php', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
         alert(xhr.responseText); // Show success/failure message

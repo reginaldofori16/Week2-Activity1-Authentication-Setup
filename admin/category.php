@@ -47,7 +47,7 @@ if (is_logged_in() && is_admin()) {
 
 
     <!-- Inline add-category form -->
-    <form action="<?php echo htmlspecialchars(generate_url('../actions/add_category_action.php')); ?>" method="post" style="display:inline-block;">
+    <form method="post" style="display:inline-block;" name="add-category-form" id="add-category-form">
         <input type="text" name="category_name" placeholder="New category name" required style="padding:.4rem;margin-right:.4rem;" />
         <button type="submit" style="padding:.4rem .6rem;background:#28a745;color:#fff;border:0;border-radius:4px;">Add</button>
     </form>
