@@ -10,7 +10,7 @@ document.getElementById('categoryForm').addEventListener('submit', function(even
     }
 
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', '../actions/add_category_action.php', true);
+    xhr.open('POST', 'actions/add_category_action.php', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
         alert(xhr.responseText); // Show success/failure message
