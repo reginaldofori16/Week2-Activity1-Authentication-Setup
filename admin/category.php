@@ -63,10 +63,10 @@ require_once __DIR__ . '/../controllers/category_controller.php';
 <script>
     // API endpoints used by the JS; generated server-side so paths follow BASE_URL
     var CATEGORY_ENDPOINTS = {
-        fetch: '<?php echo htmlspecialchars(generate_url("actions/fetch_category_action.php")); ?>',
-        add: '<?php echo htmlspecialchars(generate_url("actions/add_category_action.php")); ?>',
-        update: '<?php echo htmlspecialchars(generate_url("actions/update_category_action.php")); ?>',
-        delete: '<?php echo htmlspecialchars(generate_url("actions/delete_category_action.php")); ?>'
+        fetch: '../actions/fetch_category_action.php")); ?>',
+        add: '../actions/add_category_action.php',
+        update: '../actions/update_category_action.php',
+        delete: '../actions/delete_category_action.php'
     };
 </script>
 <script src="../js/category.js"></script>
