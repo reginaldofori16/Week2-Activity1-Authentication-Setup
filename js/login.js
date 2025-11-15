@@ -42,11 +42,18 @@ $(document).ready(function () {
                         icon: 'success',
                         title: 'Welcome!',
                         text: response.message || 'Login successful!',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            // Redirect to dashboard or homepage
-                            window.location.href = '../index.php';
-                        }
+                        timer: 2000,
+                        timerProgressBar: true,
+                        showConfirmButton: false
+                    }).then(() => {
+                        // Check if there's a redirect URL stored in session
+                        $.get('../actions/get_redirect_url.php', function(data) {
+                            if (data.redirect_url) {
+                                window.location.href = data.redirect_url;
+                            } else {
+                                window.location.href = '../index.php';
+                            }
+                        });
                     });
                 } else {
                     Swal.fire({

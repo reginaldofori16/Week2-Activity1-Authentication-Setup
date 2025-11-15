@@ -48,6 +48,10 @@ try {
         $_SESSION['user_id'] = $user['id'];
 
         $_SESSION['user_name'] = $user['name'];
+
+        // Migrate guest cart to user cart if items exist
+        require_once __DIR__ . '/../controllers/cart_controller.php';
+        CartController::migrate_guest_cart_ctr($user['id']);
         $_SESSION['user_email'] = $user['email'];
     // Ensure role is stored as integer so strict checks work
     $_SESSION['user_role'] = (int) $user['role'];

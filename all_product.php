@@ -116,6 +116,12 @@ $brands = BrandController::get_all_brands();
                     <li class="nav-item">
                         <a class="nav-link active" href="all_product.php">All Products</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cart.php">
+                            <i class="bi bi-cart3"></i> Cart
+                            <span class="badge bg-danger cart-badge ms-1" style="display: none;">0</span>
+                        </a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav">
                     <?php if (isset($_SESSION['user_id'])): ?>
@@ -263,6 +269,8 @@ $brands = BrandController::get_all_brands();
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/cart.js"></script>
     <script>
         // API endpoint
         const API_URL = 'actions/product_actions.php';
@@ -341,7 +349,8 @@ $brands = BrandController::get_all_brands();
                                 </div>
                                 <div class="price-tag mb-3">$${parseFloat(product.product_price).toFixed(2)}</div>
                                 <div class="mt-auto">
-                                    <button class="btn btn-cart w-100">
+                                    <button class="btn btn-cart w-100 btn-add-to-cart"
+                                            data-product-id="${product.product_id}">
                                         <i class="bi bi-cart-plus"></i> Add to Cart
                                     </button>
                                 </div>

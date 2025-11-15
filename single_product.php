@@ -127,6 +127,12 @@ if ($product_id) {
                     <li class="nav-item">
                         <a class="nav-link" href="all_product.php">All Products</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cart.php">
+                            <i class="bi bi-cart3"></i> Cart
+                            <span class="badge bg-danger cart-badge ms-1" style="display: none;">0</span>
+                        </a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav">
                     <?php if (isset($_SESSION['user_id'])): ?>
@@ -260,7 +266,8 @@ if ($product_id) {
 
                     <!-- Add to Cart Button -->
                     <div class="d-grid gap-2">
-                        <button class="btn btn-cart btn-lg" id="addToCartBtn">
+                        <button class="btn btn-cart btn-lg btn-add-to-cart" id="addToCartBtn"
+                                data-product-id="<?php echo $product_id; ?>">
                             <i class="bi bi-cart-plus"></i> Add to Cart
                         </button>
                         <button class="btn btn-outline-secondary">
@@ -307,43 +314,11 @@ if ($product_id) {
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/cart.js"></script>
     <script>
         $(document).ready(function() {
-            // Add to Cart functionality
-            $('#addToCartBtn').on('click', function() {
-                const productId = <?php echo $product_id ? $product_id : 'null'; ?>;
-
-                if (!productId) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Invalid product'
-                    });
-                    return;
-                }
-
-                // Disable button temporarily
-                const btn = $(this);
-                const originalText = btn.html();
-                btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span>Adding...');
-
-                // Simulate adding to cart (replace with actual AJAX call when cart is implemented)
-                setTimeout(function() {
-                    btn.prop('disabled', false).html(originalText);
-
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Added to Cart!',
-                        text: 'Product has been added to your cart',
-                        toast: true,
-                        position: 'top-end',
-                        timer: 3000,
-                        showConfirmButton: false
-                    });
-                }, 1000);
-            });
-
             // Wishlist functionality (placeholder)
             $('.btn-outline-secondary').on('click', function() {
                 Swal.fire({
